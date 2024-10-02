@@ -19,10 +19,16 @@ const LoginForm = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
+  
       if (response.ok) {
-        const token = await response.text();
-        document.cookie = `secretCookie=${token}; path=/`;
+        let token = await response.text();
+        
+        // Убираем кавычки, если они есть
+        token = token.replace(/^"|"$/g, '');
+        
+        // Сохраняем токен в куки
+        document.cookie = `secretCookie=${token}; path=/; secure; sameSite=lax;`;
+        
         alert('Login successful!');
       } else {
         alert('Login failed!');
@@ -32,7 +38,7 @@ const LoginForm = () => {
       alert('An error occurred. Please try again.');
     }
   };
-
+  
   return (
     <Flex flexDirection="column" width="100wh" height="100vh" backgroundColor="gray.200" justifyContent="center" alignItems="center">
       <Stack flexDir="column" mb="2" justifyContent="center" alignItems="center">
