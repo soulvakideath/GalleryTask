@@ -23,10 +23,8 @@ const LoginForm = () => {
       if (response.ok) {
         let token = await response.text();
         
-        // Убираем кавычки, если они есть
         token = token.replace(/^"|"$/g, '');
         
-        // Сохраняем токен в куки
         document.cookie = `secretCookie=${token}; path=/; secure; sameSite=lax;`;
         
         alert('Login successful!');
